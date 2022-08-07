@@ -1,0 +1,34 @@
+{
+  "name": "social-blogging",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^2.9.7",
+    "firebase": "^9.9.2",
+    "node-sass": "^7.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.34.0",
+    "react-router-dom": "^6.3.0",
+    "react-toastify": "^9.0.8",
+    "sass": "^1.54.3",
+    "slugify": "^1.6.5",
+    "styled-components": "^5.3.5",
+    "yup": "^0.32.11"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.6",
+    "@vitejs/plugin-react": "^2.0.0",
+    "autoprefixer": "^10.4.8",
+    "postcss": "^8.4.14",
+    "tailwindcss": "^3.1.8",
+    "vite": "^3.0.0"
+  }
+}
