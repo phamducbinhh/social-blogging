@@ -10,6 +10,12 @@ import DashBoardLayout from "./Modules/DashBoard/DashBoardLayout";
 import DashBoardPages from "./Pages/DashBoardPages";
 import PostManage from "./Modules/DashBoard/dasboard-page/PostManage";
 import PostAddNew from "./Modules/DashBoard/dasboard-page/PostAddNew";
+import PostCategoryManage from "./Modules/DashBoard/category/PostCategoryManage";
+import UserManage from "./Modules/DashBoard/user/UserManage";
+import PostCategoryAddNew from "./Modules/DashBoard/category/PostCategoryAddNew";
+import UserProfile from "./Modules/DashBoard/user/UserProfile";
+import UserAddNew from "./Modules/DashBoard/user/UserAddNew";
+import PostCategoryUpdate from "./Modules/DashBoard/category/PostCategoryUpdate";
 
 const App = () => {
   return (
@@ -28,6 +34,21 @@ const App = () => {
               path="/manage/add-post"
               element={<PostAddNew></PostAddNew>}
             />
+            <Route
+              path="/manage/category"
+              element={<PostCategoryManage></PostCategoryManage>}
+            />
+            <Route
+              path="/manage/add-category"
+              element={<PostCategoryAddNew />}
+            />
+            <Route
+              path="/manage/update-category"
+              element={<PostCategoryUpdate />}
+            />
+            <Route path="/manage/user" element={<UserManage></UserManage>} />
+            <Route path="/manage/add-user" element={<UserAddNew />}></Route>
+            <Route path="/profile" element={<UserProfile />}></Route>
           </Route>
         </Routes>
       </AuthProvider>

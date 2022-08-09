@@ -1,11 +1,12 @@
 import React from "react";
 import PaginationComponent from "../../../Components/pagination/PaginationComponent";
 import TableComponent from "../../../Components/table/TableComponent";
+import DashboardHeading from "../DashboardHeading";
 
 const PostManage = () => {
   return (
     <div>
-      <h1 className="dashboard-heading">Manage post</h1>
+      <DashboardHeading title="All Post" desc="Manage All Post" />
       <div className="mb-10 flex justify-end">
         <div className="w-full max-w-[300px]">
           <input

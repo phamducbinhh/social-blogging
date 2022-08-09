@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
+import { useAuth } from "../../Context/AuthContext";
+import PageNotFound from "../../Pages/PageNotFound";
 import DashBoardHeader from "./DashBoardHeader";
 import Sidebar from "./Sidebar";
 
@@ -10,9 +12,9 @@ const DashBoardStyles = styled.div`
   .dashboard {
     &-heading {
       font-weight: bold;
-      font-size: 36px;
-      margin-bottom: 40px;
-      color: ${(props) => props.theme.primary};
+      font-size: 30px;
+      margin-bottom: 35px;
+      color: ${(props) => props.theme.gray23};
       letter-spacing: 1px;
     }
     &-main {
@@ -25,6 +27,8 @@ const DashBoardStyles = styled.div`
   }
 `;
 const DashBoardLayout = ({ children }) => {
+  const { userInfo } = useAuth();
+  if (!userInfo) return <PageNotFound />;
   useEffect(() => {
     document.title = "Dashboard";
   }, []);

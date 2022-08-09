@@ -18,8 +18,11 @@
 
  #CATEGORY
     id
+    name
     title
     slug
+    statsu : aprrove unapprove
+    createAt
 
   -->
 

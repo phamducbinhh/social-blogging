@@ -12,7 +12,7 @@ import TogglePassword from "../Components/toggle/TogglePassword";
 import { NavLink, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../Firebase/Firebase";
 
 //validate vs yup
@@ -42,6 +42,8 @@ const SignUpPage = () => {
   });
 
   // xử lý form đăng ký tài khoản
+
+
   const handleSignUpForm = async (values) => {
     if (!isValid) return;
     await createUserWithEmailAndPassword(auth, values.email, values.password);
@@ -49,13 +51,21 @@ const SignUpPage = () => {
       displayName: values.username,
     });
     const colRef = collection(db, "users");
-    await addDoc(colRef, {
-      fullname: values.username,
+    await setDoc(doc(db, "users", auth.currentUser.uid), {
+      username: values.username,
       email: values.email,
       password: values.password,
     });
-    toast.success("Register successfully!!!");
-    navigate("/");
+    // await addDoc(colRef, {
+    //   username: values.username,
+    //   email: values.email,
+    //   password: values.password,
+    // });
+    toast.success("Register successfully!!!", {
+      pauseOnHover: false,
+      delay: 0,
+    });
+    navigate("/sign-in");
   };
 
   //hiện lỗi khi validate bằng toast

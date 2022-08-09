@@ -11,6 +11,7 @@
   "dependencies": {
     "@hookform/resolvers": "^2.9.7",
     "firebase": "^9.9.2",
+    "lodash": "^4.17.21",
     "node-sass": "^7.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -20,6 +21,7 @@
     "sass": "^1.54.3",
     "slugify": "^1.6.5",
     "styled-components": "^5.3.5",
+    "sweetalert2": "^11.4.26",
     "yup": "^0.32.11"
   },
   "devDependencies": {

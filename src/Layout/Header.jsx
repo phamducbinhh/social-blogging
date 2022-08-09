@@ -25,7 +25,7 @@ const HeaderStyles = styled.header`
   .search {
     margin-left: auto;
     padding: 15px 25px;
-    border: 1px solid #ccc;
+    border: 1px solid #2ebac1;
     border-radius: 8px;
     width: 100%;
     max-width: 320px;
@@ -129,7 +129,7 @@ const Header = () => {
           </div>
           {userInfo ? (
             <>
-              <span className="mr-3">Hello!</span>
+              <span className="mr-3 text-gray-700 font-bold">Wellcome!</span>
               <strong className="text-primary capitalize">
                 {getLastName(userInfo?.displayName)}
               </strong>
@@ -139,9 +139,9 @@ const Header = () => {
               type="button"
               height="50px"
               className="header-button"
-              to="/sign-up"
+              to="/sign-in"
             >
-              Sign Up
+              Login
             </Button>
           )}
         </div>

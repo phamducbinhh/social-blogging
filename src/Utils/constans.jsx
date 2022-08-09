@@ -11,7 +11,12 @@ export const theme = {
 };
 
 export const postStatus = {
+  APPROVED: 1, //phe duyet
+  PENDING: 2, //cho duyet
+  REJECTED: 3, //tu choi
+};
+
+export const categoryStatus = {
   APPROVED: 1,
-  PENDING: 2,
-  REJECTED: 3,
+  UNAPPROVED: 2,
 };

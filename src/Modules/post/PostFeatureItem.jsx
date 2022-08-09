@@ -1,5 +1,7 @@
-import React from "react";
+import { doc, getDoc } from "firebase/firestore";
+import React, { useEffect } from "react";
 import styled from "styled-components";
+import { db } from "../../Firebase/Firebase";
 import PostCategory from "./PostComponents/PostCategory";
 import PostImage from "./PostComponents/PostImage";
 import PostMeta from "./PostComponents/PostMeta";
@@ -48,27 +50,63 @@ const PostFeatureItemStyles = styled.div`
     height: 272px;
   }
 `;
-const PostFeatureItem = () => {
+const PostFeatureItem = ({ item }) => {
+  //lấy id từ trường category trong firebase
+  const [categoriesID, setCategoriesID] = React.useState("");
+  //lấy user id từ trường user trong firebase
+  const [user, setUser] = React.useState("");
+
+  useEffect(() => {
+    async function FetchData() {
+      const docRef = doc(db, "categories", item.categoryId);
+      const docSnap = await getDoc(docRef);
+      setCategoriesID(docSnap.data());
+    }
+    FetchData();
+  }, [item.categoryId]);
+
+  //lấy user id từ trường user để hiện tên tác giả trong firebase
+  useEffect(() => {
+    async function FetchUser() {
+      if (item.userId) {
+        const docRef = doc(db, "users", item.userId);
+        const docSnap = await getDoc(docRef);
+        if (docSnap) {
+          setUser(docSnap.data());
+        }
+      }
+    }
+    FetchUser();
+  }, [item.userId]);
+
+  //time hien thi thoi gian post
+  const date = item?.createdAt?.seconds
+    ? new Date(item.createdAt.seconds * 1000)
+    : new Date();
+  const hour = date.getHours();
+  const minutes = date.getMinutes();
+
+  const time = `${hour}:${minutes}`;
+  console.log(time);
+  const formartDate = new Date(date).toLocaleDateString("vi-VI");
   return (
     <PostFeatureItemStyles>
       {/* post-image component */}
-      <PostImage
-        url="https://images.unsplash.com/photo-1614624532983-4ce03382d63d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2662&q=80"
-        alt="unsplash"
-      />
-
+      <PostImage url={item?.image} alt="unsplash" />
       <div className="post-overlay"></div>
       <div className="post-content">
         <div className="post-top">
           {/* component postCategory */}
-          <PostCategory>Kiến thức</PostCategory>
+          {categoriesID?.name && (
+            <PostCategory to={categoriesID.slug}>
+              {categoriesID?.name}
+            </PostCategory>
+          )}
           {/* post-meta */}
-          <PostMeta />
+          <PostMeta authorName={user?.username} date={formartDate} />
         </div>
         {/* component postTile */}
-        <PostTitle>
-          Hướng dẫn setup phòng cực chill dành cho người mới toàn tập
-        </PostTitle>
+        <PostTitle>{item?.title}</PostTitle>
       </div>
     </PostFeatureItemStyles>
   );

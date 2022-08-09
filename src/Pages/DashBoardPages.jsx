@@ -1,9 +1,10 @@
 import React, { Fragment } from "react";
+import DashboardHeading from "../Modules/DashBoard/DashboardHeading";
 
 const DashBoardPages = () => {
   return (
     <Fragment>
-      <h1 className="dashboard-heading">Monkey Blogging</h1>
+      <DashboardHeading title="Dashboard" desc="Overview Dashboard Monitor" />
     </Fragment>
   );
 };
