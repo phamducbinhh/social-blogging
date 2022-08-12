@@ -19,6 +19,15 @@ const AuthenticationPageStyles = styled.div`
     max-width: 600px;
     margin: 0 auto;
   }
+  @media only screen and (max-width: 740px){
+    .logo{
+      width: 50px;
+    }
+    .heading{
+      font-size: 20px;
+      margin-bottom: 30px;
+    }
+  }
 `;
 
 const AuthenticationPage = ({ children }) => {

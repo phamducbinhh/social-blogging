@@ -1,41 +1,46 @@
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
+import React, { Fragment, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import styled from "styled-components";
+import { useSearchParams } from "react-router-dom";
 import Button from "../../../Components/button/Button";
 import { Dropdown } from "../../../Components/dropdown";
 import Field from "../../../Components/field/Field";
+import ImageUpload from "../../../Components/image/ImageUpload";
 import Input from "../../../Components/input/Input";
 import Label from "../../../Components/label/Label";
 import Radio from "../../../Components/radio/Radio";
-import slugify from "slugify";
-import { postStatus, role } from "../../../Utils/constans";
-import ImageUpload from "../../../Components/image/ImageUpload";
-import { useFirebaseImage } from "../../../Hooks/useFirebaseImage";
 import Toggle from "../../../Components/toggle/Toggle";
-import { useEffect, useState } from "react";
 import { db } from "../../../Firebase/Firebase";
-import Swal from "sweetalert2";
-import {
-  query,
-  where,
-  collection,
-  getDocs,
-  addDoc,
-  serverTimestamp,
-  doc,
-  getDoc,
-} from "firebase/firestore";
-import { useAuth } from "../../../Context/AuthContext";
+import { useFirebaseImage } from "../../../Hooks/useFirebaseImage";
+import { postStatus, role } from "../../../Utils/constans";
 import DashboardHeading from "../DashboardHeading";
-const PostAddNewStyles = styled.div`
-  @media only screen and (max-width: 740px) {
-    .mobile-slug {
-      display: flex;
-      flex-direction: column;
-    }
-  }
-`;
+import ReactQuill, { Quill } from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import Swal from "sweetalert2";
+// #1 import quill-image-uploader
+import ImageUploader from "quill-image-uploader";
+import { useAuth } from "../../../Context/AuthContext";
 
-const PostAddNew = () => {
+// #2 register module
+Quill.register("modules/imageUploader", ImageUploader);
+const PostUpdate = () => {
+  const [params] = useSearchParams();
+  //xử lý lấy dữ liệu từ firebase để render ra dropdown
+  const [categories, setCategories] = useState([]);
+  const [selectCategory, setSelectCategory] = useState("");
+  //react quill state
+  const [content, setContent] = useState("");
+  const postID = params.get("id");
+  const { userInfo } = useAuth();
+
   const {
     control,
     watch,
@@ -46,101 +51,59 @@ const PostAddNew = () => {
     formState: { isSubmitting, isValid },
   } = useForm({
     mode: "onChange",
-    defaultValues: {
-      title: "",
-      image: "",
-      slug: "",
-      status: 2,
-      hot: false,
-      category: {},
-      user: {},
-    },
+    defaultValues: {},
   });
 
-  const { userInfo } = useAuth();
-  //gọi hàm custom hook để upload ảnh
-  const { image, progress, handleSelectImage, handleDeleteImage } =
-    useFirebaseImage(setValue, getValues);
-
-  //dung useEffect de lay dc id cua user dang dang nhap hien tai day du cac thong tin cua user
+  //get data post from firebase
   useEffect(() => {
-    async function getUserId() {
-      if (!userInfo) return;
-      const q = query(
-        collection(db, "users"),
-        where("email", "==", userInfo.email)
-      );
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        setValue("user", {
-          id: doc.id,
-          ...doc.data(),
-        });
-      });
-    }
-    getUserId();
-  }, [userInfo.email]);
-  //hàm thêm bài viết mới
-  const handleAddPost = async (values) => {
-    if (!isValid) return; //neu form khong hop le thi khong thuc hien
-    // phần quyền phải là admin mới được quyền create post
+    const getPostData = async () => {
+      if (!postID) return;
+      const colRef = doc(db, "posts", postID);
+      const docSnap = await getDoc(colRef);
+      if (docSnap) {
+        reset(docSnap.data()); //reset ve trang thai ban dau khi click vao update
+        setSelectCategory(docSnap.data()?.category || "");
+        setContent(docSnap.data()?.content || "");
+        // setImage(docSnap.data()?.image || "");
+      }
+    };
+    getPostData();
+  }, [postID, reset]);
+
+  //ham update post
+  const handleUpdatePost = async (values) => {
+    //phải là admin mới được quyền update
     if (userInfo?.role !== role.ADMIN) {
       Swal.fire(
         "Failed",
-        "You must be an admin to have permission Create User",
+        "You must be an admin to have permission Update Post",
         "warning"
       );
       return;
     }
-    const valuesCopy = { ...values };
-    //dieu kien slug neu ko nhap thi se lay values cua title
-    valuesCopy.slug = slugify(values.slug || values.title, { lower: true });
-    //statsu values phai dc convert sang number truoc khi submit
-    valuesCopy.status = Number(values.status);
-    //luu du lieu vao firebase
-    const colRef = collection(db, "posts");
-    try {
-      await addDoc(colRef, {
-        ...valuesCopy,
-        categoryId: valuesCopy.category.id,
-        userId: valuesCopy.user.id,
-        image,
-        createAt: serverTimestamp(),
-      });
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Create new Post successfully!",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    } catch (error) {
-      console.log(error);
-      Swal.fire({
-        position: "center",
-        icon: "error",
-        title: "error",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    } finally {
-      reset({
-        title: "",
-        image: "",
-        slug: "",
-        status: 2,
-        hot: false,
-        createAt: serverTimestamp(),
-        category: {},
-        user: {},
-      });
-    }
-    setSelectCategory({});
+    if (!isValid) return;
+    const postRef = doc(db, "posts", postID);
+    await updateDoc(postRef, {
+      ...values,
+      image,
+      content,
+    });
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "Update Post successfully!",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   };
+  const watchStatus = watch("status"); //trạng thái của radio
+  const watchHot = watch("hot"); //trạng thái của toggle
 
-  //xử lý lấy dữ liệu từ firebase để render ra dropdown
-  const [categories, setCategories] = useState([]);
-  const [selectCategory, setSelectCategory] = useState("");
+  //hooks upload image
+  //gọi hàm custom hook để upload ảnh
+  const { image, progress, handleSelectImage, handleDeleteImage, setImage } =
+    useFirebaseImage(setValue, getValues);
+
   useEffect(() => {
     async function getData() {
       const colRef = collection(db, "categories");
@@ -171,12 +134,31 @@ const PostAddNew = () => {
     setSelectCategory(item);
   };
 
-  const watchStatus = watch("status"); //trạng thái của radio
-  const watchHot = watch("hot"); //trạng thái của toggle
+  //react quill image upload library
+  const modules = {
+    toolbar: [
+      ["bold", "italic", "underline", "strike"],
+      ["blockquote"],
+      [{ header: 1 }, { header: 2 }], // custom button values
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+      ["link", "image"],
+    ],
+  };
+
+  if (!postID)
+    return (
+      <div className="text-3xl font-semibold text-red-500">
+        You Need Choosen Post Update !
+      </div>
+    );
   return (
-    <PostAddNewStyles>
-      <DashboardHeading title="Add New Post" desc="Add new Dashboard" />
-      <form onSubmit={handleSubmit(handleAddPost)} autoComplete="off">
+    <Fragment>
+      <DashboardHeading
+        title="Update Post"
+        desc={`Update Post Content with ID: ${postID}`}
+      ></DashboardHeading>
+      <form onSubmit={handleSubmit(handleUpdatePost)}>
         <div className="grid grid-cols-2 gap-x-10 mb-10">
           <Field>
             <Label>Title</Label>
@@ -197,7 +179,7 @@ const PostAddNew = () => {
             ></Input>
           </Field>
         </div>
-        <div className="grid grid-cols-2 gap-x-10 mb-10 ">
+        <div className="grid grid-cols-2 gap-x-10 mb-10">
           <Field>
             <Label>Upload Image</Label>
             <ImageUpload
@@ -226,7 +208,20 @@ const PostAddNew = () => {
             </Dropdown>
           </Field>
         </div>
-        <div className="grid grid-cols-2 gap-x-10 mb-10 mobile-slug">
+        <div className="mb-10">
+          <Field>
+            <Label>Content is here</Label>
+            <div className="w-full entry-content">
+              <ReactQuill
+                modules={modules}
+                theme="snow"
+                value={content}
+                onChange={setContent}
+              />
+            </div>
+          </Field>
+        </div>
+        <div className="grid grid-cols-2 gap-x-10 mb-10">
           <Field>
             <Label>Feature Post</Label>
             <Toggle
@@ -270,11 +265,11 @@ const PostAddNew = () => {
           isLoading={isSubmitting}
           disabled={isSubmitting}
         >
-          Add new post
+          Update Post
         </Button>
       </form>
-    </PostAddNewStyles>
+    </Fragment>
   );
 };
 
-export default PostAddNew;
+export default PostUpdate;

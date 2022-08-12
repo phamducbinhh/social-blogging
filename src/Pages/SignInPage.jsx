@@ -13,6 +13,7 @@ import * as yup from "yup";
 import { toast } from "react-toastify";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../Firebase/Firebase";
+import Swal from "sweetalert2";
 
 //validate vs yup
 const schema = yup.object({
@@ -29,7 +30,6 @@ const schema = yup.object({
 const SignInPage = () => {
   const { userInfo, toggle } = useAuth();
   const navigate = useNavigate();
-
   const {
     handleSubmit,
     control,
@@ -39,7 +39,7 @@ const SignInPage = () => {
     resolver: yupResolver(schema),
   });
 
-  //thông báo lỗi
+  //thông báo lỗi validate
   useEffect(() => {
     const arrErroes = Object.values(errors);
     if (arrErroes.length > 0) {
@@ -53,7 +53,24 @@ const SignInPage = () => {
   //hàm đăng nhập
   const handleSignIn = async (values) => {
     if (!isValid) return;
-    await signInWithEmailAndPassword(auth, values.email, values.password);
+    try {
+      await signInWithEmailAndPassword(auth, values.email, values.password);
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Login success!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } catch (error) {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Login failed!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
     navigate("/");
   };
 
@@ -67,11 +84,7 @@ const SignInPage = () => {
 
   return (
     <AuthenticationPage>
-      <form
-        className="form"
-        autoComplete="off"
-        onSubmit={handleSubmit(handleSignIn)}
-      >
+      <form className="form" onSubmit={handleSubmit(handleSignIn)}>
         <Field>
           <Label htmlFor="email">Email</Label>
           <Input

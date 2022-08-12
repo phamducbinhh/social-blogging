@@ -34,7 +34,6 @@ const HomeFeature = () => {
       setPost(result);
     });
   }, []);
-  console.log(post);
   if (post.length <= 0) return null;
   return (
     <HomeFeatureStyles className="home-block">

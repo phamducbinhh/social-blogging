@@ -17,19 +17,33 @@ const PostItemStyles = styled.div`
       border-radius: 16px;
     }
   }
+  @media screen and (max-width: 1023.98px) {
+    .post {
+      &-image {
+        aspect-ratio: 16/9;
+        height: auto;
+      }
+    }
+  }
 `;
 
-const PostItem = () => {
+const PostItem = ({ data }) => {
+  if (!data) return null;
+  //time hien thi thoi gian post
+  const date = data?.createdAt?.seconds
+    ? new Date(data.createdAt.seconds * 1000)
+    : new Date();
+  const formartDate = new Date(date).toLocaleDateString("vi-VI");
   return (
     <PostItemStyles>
-      <PostImage url="https://images.unsplash.com/photo-1570993492881-25240ce854f4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2290&q=80" />
-      <PostCategory>Kiến thức</PostCategory>
-      {/* post-title */}
-      <PostTitle type="primary" size="small">
-        Hướng dẫn setup phòng cực chill dành cho người mới toàn tập
+      <PostImage url={data?.image} to={data?.slug} />
+      <PostCategory to={data?.category?.slug}>
+        {data?.category?.name}
+      </PostCategory>
+      <PostTitle type="primary" size="small" to={data?.slug}>
+        {data?.title}
       </PostTitle>
-      {/* post-meta */}
-      <PostMeta />
+      <PostMeta date={formartDate} authorName={data?.user?.username} />
     </PostItemStyles>
   );
 };

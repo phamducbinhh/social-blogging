@@ -3,7 +3,7 @@ import React from "react";
 const ActionView = ({ onClick = () => {} }) => {
   return (
     <span
-      className="flex items-center justify-center w-10 h-10 border border-gray-200 rounded cursor-pointer text-orange-500"
+      className="flex items-center justify-center w-10 h-10 border border-gray-200 rounded cursor-pointer text-orange-500 hover:text-orange-700"
       onClick={onClick}
     >
       <svg

@@ -11,11 +11,13 @@ import Input from "../../../Components/input/Input";
 import Label from "../../../Components/label/Label";
 import Radio from "../../../Components/radio/Radio";
 import { db } from "../../../Firebase/Firebase";
-import { categoryStatus } from "../../../Utils/constans";
+import { categoryStatus, role } from "../../../Utils/constans";
 import DashboardHeading from "../DashboardHeading";
+import { useAuth } from "../../../Context/AuthContext";
 
 const PostCategoryUpdate = () => {
   const navigate = useNavigate();
+  const { userInfo } = useAuth();
   const {
     handleSubmit,
     control,
@@ -26,22 +28,40 @@ const PostCategoryUpdate = () => {
     mode: "onChange",
     defaultValues: {},
   });
-  const [params] = useSearchParams();
-  const categoryId = params.get("id");
+  const [params] = useSearchParams(); //params la 1 object co cac key la id cua category
+  const categoryId = params.get("id"); //lay id cua category
+  if (!categoryId)
+    return (
+      <div className="text-3xl font-semibold text-red-500">
+        You Need Choosen Category Update !
+      </div>
+    );
 
   //get data from firebase
   useEffect(() => {
     async function FetchData() {
       const colRef = doc(db, "categories", categoryId);
       const docSnap = await getDoc(colRef);
-      reset(docSnap.data()); //reset ve trang thai ban dau khi click vao edit
+      if (docSnap) {
+        reset(docSnap.data()); //reset ve trang thai ban dau khi click vao update
+      }
     }
     FetchData();
-  }, [categoryId]);
+  }, [categoryId, reset]);
 
   //ham update data
   const handleUpdate = async (values) => {
     if (!isValid) return;
+    // phần quyền phải là admin mới được quyền delete
+    if (userInfo?.role !== role.ADMIN) {
+      Swal.fire(
+        "Failed",
+        "You must be an admin to have permission Update category",
+        "warning"
+      );
+      return;
+    }
+    //lưu dữ liệu sau khi update vào firebase
     const colRef = doc(db, "categories", categoryId);
     await updateDoc(colRef, {
       name: values.name,
@@ -58,7 +78,6 @@ const PostCategoryUpdate = () => {
     navigate("/manage/category");
   };
   const watchStatus = watch("status"); //trang thai cua radio
-  if (!categoryId) return null;
 
   return (
     <Fragment>

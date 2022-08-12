@@ -9,13 +9,15 @@ import Label from "../../../Components/label/Label";
 import Radio from "../../../Components/radio/Radio";
 import slugify from "slugify";
 import { db } from "../../../Firebase/Firebase";
-import { categoryStatus } from "../../../Utils/constans";
+import { categoryStatus, role } from "../../../Utils/constans";
 import DashboardHeading from "../DashboardHeading";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../Context/AuthContext";
 
 const PostCategoryAddNew = () => {
   const navigate = useNavigate();
+  const { userInfo } = useAuth();
   const {
     control,
     watch,
@@ -35,8 +37,16 @@ const PostCategoryAddNew = () => {
   // const [addCategories, setAddCategories] = React.useState([]);
   const handleAddCategory = async (values) => {
     if (!isValid) return;
+    // phần quyền phải là admin mới được quyền create post
+    if (userInfo?.role !== role.ADMIN) {
+      Swal.fire(
+        "Failed",
+        "You must be an admin to have permission Create Category",
+        "warning"
+      );
+      return;
+    }
     const newValues = { ...values };
-    console.log(newValues);
     //dieu kien slug neu ko nhap thi se lay values cua title
     newValues.slug = slugify(values.slug || values.title, { lower: true });
     //statsu values phai dc convert sang number truoc khi submit
@@ -73,7 +83,6 @@ const PostCategoryAddNew = () => {
         createdAt: new Date(),
       });
     }
-    // setAddCategories([...addCategories, newValues]);
   };
 
   const watchStatus = watch("status"); //trạng thái của radio

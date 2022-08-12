@@ -8,9 +8,9 @@ import Label from "../../../Components/label/Label";
 import DashboardHeading from "../DashboardHeading";
 
 const UserProfile = () => {
-    const { control } = useForm({
-        mode: "onChange",
-      });
+  const { control } = useForm({
+    mode: "onChange",
+  });
   return (
     <Fragment>
       <DashboardHeading
@@ -28,6 +28,7 @@ const UserProfile = () => {
               control={control}
               name="fullname"
               placeholder="Enter your fullname"
+              required
             ></Input>
           </Field>
           <Field>

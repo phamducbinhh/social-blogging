@@ -11,7 +11,7 @@ const Option = (props) => {
   };
   return (
     <div
-      className="flex items-center justify-between py-4 px-5 bg-[#E7ECF3] border border-grayf1 rounded-lg cursor-pointer text-sm text-[#000] overflow-hidden mt-3"
+      className="flex items-center justify-between py-4 px-5 bg-[#F3F4F6]  border border-grayf1 rounded-lg cursor-pointer text-sm text-[#000] overflow-hidden mt-3 hover:text-primary"
       onClick={handleClickDropdown}
     >
       {props.children}

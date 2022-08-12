@@ -1,11 +1,10 @@
-import { doc, getDoc } from "firebase/firestore";
-import React, { useEffect } from "react";
 import styled from "styled-components";
-import { db } from "../../Firebase/Firebase";
-import PostCategory from "./PostComponents/PostCategory";
-import PostImage from "./PostComponents/PostImage";
-import PostMeta from "./PostComponents/PostMeta";
+import React from "react";
 import PostTitle from "./PostComponents/PostTitle";
+import PostMeta from "./PostComponents/PostMeta";
+import PostImage from "./PostComponents/PostImage";
+import PostCategory from "./PostComponents/PostCategory";
+
 const PostFeatureItemStyles = styled.div`
   width: 100%;
   border-radius: 16px;
@@ -51,62 +50,27 @@ const PostFeatureItemStyles = styled.div`
   }
 `;
 const PostFeatureItem = ({ item }) => {
-  //lấy id từ trường category trong firebase
-  const [categoriesID, setCategoriesID] = React.useState("");
-  //lấy user id từ trường user trong firebase
-  const [user, setUser] = React.useState("");
-
-  useEffect(() => {
-    async function FetchData() {
-      const docRef = doc(db, "categories", item.categoryId);
-      const docSnap = await getDoc(docRef);
-      setCategoriesID(docSnap.data());
-    }
-    FetchData();
-  }, [item.categoryId]);
-
-  //lấy user id từ trường user để hiện tên tác giả trong firebase
-  useEffect(() => {
-    async function FetchUser() {
-      if (item.userId) {
-        const docRef = doc(db, "users", item.userId);
-        const docSnap = await getDoc(docRef);
-        if (docSnap) {
-          setUser(docSnap.data());
-        }
-      }
-    }
-    FetchUser();
-  }, [item.userId]);
-
+  if (!item || !item.id) return null;
   //time hien thi thoi gian post
   const date = item?.createdAt?.seconds
     ? new Date(item.createdAt.seconds * 1000)
     : new Date();
-  const hour = date.getHours();
-  const minutes = date.getMinutes();
-
-  const time = `${hour}:${minutes}`;
-  console.log(time);
   const formartDate = new Date(date).toLocaleDateString("vi-VI");
+  const { category, user } = item;
   return (
     <PostFeatureItemStyles>
       {/* post-image component */}
-      <PostImage url={item?.image} alt="unsplash" />
+      {/* dữ liệu được truyền props từ bên component Home Feature */}
+      <PostImage url={item?.image} alt="unsplash"></PostImage>
       <div className="post-overlay"></div>
       <div className="post-content">
         <div className="post-top">
-          {/* component postCategory */}
-          {categoriesID?.name && (
-            <PostCategory to={categoriesID.slug}>
-              {categoriesID?.name}
-            </PostCategory>
+          {category?.name && (
+            <PostCategory to={category.slug}>{category?.name}</PostCategory>
           )}
-          {/* post-meta */}
           <PostMeta authorName={user?.username} date={formartDate} />
         </div>
-        {/* component postTile */}
-        <PostTitle>{item?.title}</PostTitle>
+        <PostTitle to={item.slug} className="hover:text-gray-300">{item?.title}</PostTitle>
       </div>
     </PostFeatureItemStyles>
   );

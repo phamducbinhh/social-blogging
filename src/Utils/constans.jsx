@@ -1,5 +1,5 @@
 export const theme = {
-  primary: "#2EBAC1",
+  primary: "#1DC071",
   secondary: "#A4D96C",
   grayDark: "#292D32",
   grayLight: "#E7ECF3",
@@ -19,4 +19,16 @@ export const postStatus = {
 export const categoryStatus = {
   APPROVED: 1,
   UNAPPROVED: 2,
+};
+
+export const userStatus = {
+  ACTIVE: 1,
+  HANDING: 2,
+  BLOCKED: 3,
+};
+
+export const role = {
+  ADMIN: 1,
+  MODE: 2,
+  USER: 3,
 };

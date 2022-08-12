@@ -31,6 +31,17 @@ const InputStyles = styled.div`
     transform: translateY(-50%);
     cursor: pointer;
   }
+  @media only screen and (max-width: 740px) {
+    input {
+      padding: 12px;
+    }
+    input::-webkit-input-placeholder {
+      font-size: 12px;
+    }
+    input::-moz-input-placeholder {
+      color: #84878b;
+    }
+  }
 `;
 const Input = ({ name = "", type = "text", children, control, ...props }) => {
   const { field } = useController({

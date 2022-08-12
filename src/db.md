@@ -1,38 +1,36 @@
-<!--
-#POST
-    collection : post
-    Add New Post
-    id
-    title
-    slug
-    image
-    createAt
-    status: 1 (approved) 2(pending) 3(reject)
-    hot(true-false)
-    content:Json.parse
-    userId
-    categoryID
- -->
+<!--  -->
 
- <!-- 
+***Post
+id
+title
+slug
+image
+createdAt
+status: 1(approved) 2(pending) 3(reject)
+hot(true or false)
+content
+user: id, username, fullname, avatar, description
+category: id, name, slug
 
- #CATEGORY
-    id
-    name
-    title
-    slug
-    statsu : aprrove unapprove
-    createAt
+<!--  -->
 
-  -->
+***Category
+id
+name
+slug
+status: 1(approved) 2(unapproved)
+createdAt
 
-<!--
+<!--  -->
 
-#USER
-    id
-    displayName
-    email
-    password
-    status: 1 (approved) 2(pending) 3(reject)
-    role : 1(admin) 2(mod) 3(user)
- -->
+***User
+id
+displayName
+username
+email
+password
+avatar: url, image_name
+status: 1(active) 2(pending) 3(ban)
+role: 1(Admin) 2(Mod) 3(User)
+permissions: "ADD_POST"
+createdAt

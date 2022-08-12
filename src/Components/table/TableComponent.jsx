@@ -4,6 +4,14 @@ const TableStyles = styled.div`
   overflow-x: auto;
   background-color: white;
   border-radius: 10px;
+  overflow-y: auto;
+  ::-webkit-scrollbar {
+    background-image: linear-gradient(#fc5c7d, #6a82fb);
+    border: 0;
+    width: 4px;
+    border-radius: 2px;
+  }
+
   table {
     width: 100%;
   }

@@ -6,7 +6,7 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { useState } from "react";
-import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 export const useFirebaseImage = (setValue, getValues) => {
   //hàm upload image
@@ -61,9 +61,12 @@ export const useFirebaseImage = (setValue, getValues) => {
     const imageRef = ref(storage, "images/" + getValues("image_name"));
     deleteObject(imageRef)
       .then(() => {
-        toast.success("Deleted successfully!!!", {
-          pauseOnHover: false,
-          delay: 0,
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Delete Success!",
+          showConfirmButton: false,
+          timer: 1500,
         });
         setImage("");
         setProgress(0);
@@ -74,6 +77,7 @@ export const useFirebaseImage = (setValue, getValues) => {
   };
   return {
     image,
+    setImage,
     progress,
     handleSelectImage,
     handleDeleteImage,

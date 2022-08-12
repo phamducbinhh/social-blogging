@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 const PostCategoryStyles = styled.div`
@@ -23,10 +24,15 @@ const PostCategoryStyles = styled.div`
     font-size: 10px;
   }
 `;
-const PostCategory = ({ children, className = "", type = "primary" }) => {
+const PostCategory = ({
+  children,
+  className = "",
+  type = "primary",
+  to = "",
+}) => {
   return (
     <PostCategoryStyles type={type} className={`post-category ${className}`}>
-      {children}
+      <Link to={`/category/${to}`}>{children}</Link>
     </PostCategoryStyles>
   );
 };

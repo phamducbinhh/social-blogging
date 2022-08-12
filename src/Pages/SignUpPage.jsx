@@ -12,8 +12,10 @@ import TogglePassword from "../Components/toggle/TogglePassword";
 import { NavLink, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { auth, db } from "../Firebase/Firebase";
+import Swal from "sweetalert2";
+import { role, userStatus } from "../Utils/constans";
 
 //validate vs yup
 const schema = yup.object({
@@ -42,30 +44,33 @@ const SignUpPage = () => {
   });
 
   // xử lý form đăng ký tài khoản
-
-
   const handleSignUpForm = async (values) => {
     if (!isValid) return;
     await createUserWithEmailAndPassword(auth, values.email, values.password);
     await updateProfile(auth.currentUser, {
       displayName: values.username,
+      photoURL: "",
     });
-    const colRef = collection(db, "users");
+    //lưu thông tin user vào firestore
+    collection(db, "users");
     await setDoc(doc(db, "users", auth.currentUser.uid), {
+      //cac truong cua user
       username: values.username,
       email: values.email,
       password: values.password,
+      avatar: "",
+      status: userStatus.ACTIVE,
+      role: role.ADMIN,
+      createAt: serverTimestamp(),
     });
-    // await addDoc(colRef, {
-    //   username: values.username,
-    //   email: values.email,
-    //   password: values.password,
-    // });
-    toast.success("Register successfully!!!", {
-      pauseOnHover: false,
-      delay: 0,
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "Login success!",
+      showConfirmButton: false,
+      timer: 1500,
     });
-    navigate("/sign-in");
+    navigate("/");
   };
 
   //hiện lỗi khi validate bằng toast
@@ -85,11 +90,7 @@ const SignUpPage = () => {
   }, []);
   return (
     <AuthenticationPage>
-      <form
-        className="form"
-        autoComplete="off"
-        onSubmit={handleSubmit(handleSignUpForm)}
-      >
+      <form className="form" onSubmit={handleSubmit(handleSignUpForm)}>
         <Field>
           <Label htmlFor="username">Username</Label>
           <Input

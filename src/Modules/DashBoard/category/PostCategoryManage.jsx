@@ -7,17 +7,24 @@ import Button from "../../../Components/button/Button";
 import LabelStatus from "../../../Components/label/LabelStatus";
 import TableComponent from "../../../Components/table/TableComponent";
 import { db } from "../../../Firebase/Firebase";
-import { categoryStatus } from "../../../Utils/constans";
+import { categoryStatus, role } from "../../../Utils/constans";
 import DashboardHeading from "../DashboardHeading";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { debounce } from "lodash";
+import { useAuth } from "../../../Context/AuthContext";
 const PostCategoryManage = () => {
   const navigate = useNavigate();
   //chức năng tìm kiếm
   const [search, setSearch] = React.useState("");
   //lay du lieu tu firebase
   const [categoryList, setCategoryList] = React.useState([]);
+  //set state page để loadmore
+  const [visible, setVisible] = React.useState(2);
+
+  const { userInfo } = useAuth();
+
+  // fetch data của trường category từ firebase
   useEffect(() => {
     async function getData() {
       const colRef = collection(db, "categories");
@@ -38,6 +45,15 @@ const PostCategoryManage = () => {
 
   //delete categories item
   const handleDelete = async (id) => {
+    // phần quyền phải là admin mới được quyền delete
+    if (userInfo?.role !== role.ADMIN) {
+      Swal.fire(
+        "Failed",
+        "You must be an admin to have permission delete category",
+        "warning"
+      );
+      return;
+    }
     const colRef = doc(db, "categories", id);
     //thu vien confirm deleted
     Swal.fire({
@@ -60,6 +76,10 @@ const PostCategoryManage = () => {
     setSearch(e.target.value);
   }, 500);
 
+  //hàm load more category
+  const handleLoadMoreCategory = () => {
+    setVisible((prevValue) => prevValue + 1);
+  };
   return (
     <Fragment>
       <div className="flex justify-between">
@@ -97,6 +117,7 @@ const PostCategoryManage = () => {
                 .filter((item) =>
                   item.name.toLowerCase().includes(search.toLowerCase())
                 )
+                .slice(0, visible)
                 //map ra data tu firebase
                 .map((item) => (
                   <tr key={item.id}>
@@ -130,6 +151,11 @@ const PostCategoryManage = () => {
                 ))}
           </tbody>
         </TableComponent>
+      </div>
+      <div className="mt-10 text-center">
+        <Button className="mx-auto w-[200px]" onClick={handleLoadMoreCategory}>
+          Load more
+        </Button>
       </div>
     </Fragment>
   );

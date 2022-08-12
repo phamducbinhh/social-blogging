@@ -24,10 +24,20 @@ const DashBoardStyles = styled.div`
       gap: 0 40px;
       align-items: start;
     }
+    @media screen and (max-width: 1023.98px) {
+      &-heading {
+        font-size: 20px;
+      }
+      &-main {
+        grid-template-columns: 100%;
+        padding: 20px;
+      }
+    }
   }
 `;
 const DashBoardLayout = ({ children }) => {
   const { userInfo } = useAuth();
+  console.log(userInfo);
   if (!userInfo) return <PageNotFound />;
   useEffect(() => {
     document.title = "Dashboard";

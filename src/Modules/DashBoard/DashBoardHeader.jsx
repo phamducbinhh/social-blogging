@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Button from "../../Components/button/Button";
+import { NavLink } from "react-router-dom";
+import { useAuth } from "../../Context/AuthContext";
 
 const DashBoardHeaderStyles = styled.div`
   background-color: white;
@@ -20,12 +22,20 @@ const DashBoardHeaderStyles = styled.div`
       border-radius: 100rem;
     }
   }
+  @media only screen and (max-width: 740px){
+    span{
+      display: none;
+    }
+  }
 `;
 const DashBoardHeader = () => {
+  const { userInfo } = useAuth();
   return (
     <DashBoardHeaderStyles>
       <div className="sidebar-logo flex items-center">
-        <img srcSet="/monkey.png 5x" alt="" />
+        <NavLink to="/">
+          <img srcSet="/monkey.png 5x" alt="" />
+        </NavLink>
         <span className="text-xl font-bold ml-3">Monkey Blogging</span>
       </div>
       <div className="flex">
@@ -37,10 +47,9 @@ const DashBoardHeader = () => {
           Write new post
         </Button>
         <div className="header-avatar">
-          <img
-            src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3270&q=80"
-            alt=""
-          />
+          <NavLink to={"/profile"}>
+            <img src={userInfo?.avatar} alt="" />
+          </NavLink>
         </div>
       </div>
     </DashBoardHeaderStyles>
