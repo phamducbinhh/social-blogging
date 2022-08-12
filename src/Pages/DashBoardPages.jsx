@@ -4,7 +4,7 @@ import DashboardHeading from "../Modules/DashBoard/DashboardHeading";
 const DashBoardPages = () => {
   return (
     <Fragment>
-      <DashboardHeading title="Dashboard" desc="Overview Dashboard Monitor" />
+      <DashboardHeading title="Dashboard" desc="Tính năng đang phát triển" />
     </Fragment>
   );
 };

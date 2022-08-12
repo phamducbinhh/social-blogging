@@ -26,17 +26,23 @@ const PostNewestItemStyles = styled.div`
     }
   }
 `;
-const PostNewestItem = () => {
+const PostNewestItem = ({ data }) => {
+  if (!data) return null;
+  //time hien thi thoi gian post
+  const date = data?.createdAt?.seconds
+    ? new Date(data.createdAt.seconds * 1000)
+    : new Date();
+  const formartDate = new Date(date).toLocaleDateString("vi-VI");
   return (
     <PostNewestItemStyles>
-      <PostImage url="https://images.unsplash.com/photo-1510519138101-570d1dca3d66?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2294&q=80" />
+      <PostImage url={data?.image} />
       <div className="post-content">
-        <PostCategory type="secondary">Kiến thức</PostCategory>
-        <PostTitle type="primary" size="normal">
-          Hướng dẫn setup phòng cực chill dành cho người mới toàn tập
+        <PostCategory type="secondary">{data?.category?.name}</PostCategory>
+        <PostTitle type="primary" size="normal" to={data?.slug}>
+          {data?.title}
         </PostTitle>
         {/* post-meta */}
-        <PostMeta />
+        <PostMeta authorName={data?.user?.username} date={formartDate} />
       </div>
     </PostNewestItemStyles>
   );

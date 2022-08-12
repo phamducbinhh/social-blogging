@@ -190,6 +190,7 @@ const PostUpdate = () => {
             ></ImageUpload>
           </Field>
           <Field>
+          <Label>Category</Label>
             <Dropdown>
               <Dropdown.Select
                 placeholder={`${selectCategory?.name || "Select Dropdown"}`}

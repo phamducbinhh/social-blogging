@@ -136,7 +136,6 @@ const PostCategoryManage = () => {
                     </td>
                     <td>
                       <div className="flex items-center gap-x-3">
-                        <ActionView></ActionView>
                         <ActionEdit
                           onClick={() =>
                             navigate(`/manage/update-category?id=${item.id}`)

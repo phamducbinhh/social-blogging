@@ -6,13 +6,6 @@ const PostManage = () => {
   return (
     <div>
       <DashboardHeading title="All Post" desc="Manage All Post" />
-      <div className="flex justify-start gap-5 mb-3">
-        <div className="w-full max-w-[200px]">
-          <Dropdown>
-            <Dropdown.Select placeholder="Category"></Dropdown.Select>
-          </Dropdown>
-        </div>
-      </div>
       <PostTable></PostTable>
     </div>
   );

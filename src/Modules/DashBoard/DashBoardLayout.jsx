@@ -37,7 +37,6 @@ const DashBoardStyles = styled.div`
 `;
 const DashBoardLayout = () => {
   const { userInfo } = useAuth();
-  console.log(userInfo);
   if (!userInfo) return <PageNotFound />;
   useEffect(() => {
     document.title = "Dashboard";

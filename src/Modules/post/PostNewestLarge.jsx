@@ -15,16 +15,22 @@ const PostNewestLargeStyles = styled.div`
   }
 `;
 
-const PostNewestLarge = () => {
+const PostNewestLarge = ({ data }) => {
+  if (!data) return null;
+  //time hien thi thoi gian post
+  const date = data?.createdAt?.seconds
+    ? new Date(data.createdAt.seconds * 1000)
+    : new Date();
+  const formartDate = new Date(date).toLocaleDateString("vi-VI");
   return (
     <PostNewestLargeStyles>
-      <PostImage url="https://images.unsplash.com/photo-1510519138101-570d1dca3d66?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2294&q=80" />
-      <PostCategory>Kiến thức</PostCategory>
-      <PostTitle type="primary" size="normal">
-        Hướng dẫn setup phòng cực chill dành cho người mới toàn tập
+      <PostImage url={data?.image} />
+      <PostCategory>{data?.category?.name}</PostCategory>
+      <PostTitle type="primary" size="normal" to={data?.slug} className="hover:text-gray-500">
+        {data?.title}
       </PostTitle>
       {/* post-meta */}
-      <PostMeta />
+      <PostMeta date={formartDate} authorName={data?.user?.username} />
     </PostNewestLargeStyles>
   );
 };
