@@ -35,7 +35,7 @@ const DashBoardStyles = styled.div`
     }
   }
 `;
-const DashBoardLayout = ({ children }) => {
+const DashBoardLayout = () => {
   const { userInfo } = useAuth();
   console.log(userInfo);
   if (!userInfo) return <PageNotFound />;
