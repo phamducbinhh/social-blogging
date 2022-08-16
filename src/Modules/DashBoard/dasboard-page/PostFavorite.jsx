@@ -50,7 +50,6 @@ const PostFavoriteStyles = styled.div`
   }
 `;
 const PostFavorite = ({ data }) => {
-  console.log(data);
   if (!data) return null;
   return (
     <PostFavoriteStyles>

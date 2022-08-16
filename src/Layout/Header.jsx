@@ -5,7 +5,14 @@ import Button from "../Components/button/Button";
 import { useAuth } from "../Context/AuthContext";
 
 const HeaderStyles = styled.header`
-  padding: 40px 0;
+  padding: 15px 0;
+  background-color: ${(props) => props.theme.primary};
+  color: ${(props) => props.theme.grayF3};
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  width: 100%;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   .header-main {
     display: flex;
     align-items: center;
@@ -26,9 +33,17 @@ const HeaderStyles = styled.header`
     text-transform: capitalize;
   }
   .menu-item {
-    transition:  0.3s;
+    transition: 0.3s;
     :hover {
-      color: ${(props) => props.theme.primary};
+      color: ${(props) => props.theme.gray23};
+    }
+  }
+  .header-button {
+    background: #82d19c;
+    transition: all 0.3s;
+    :hover {
+      background: #6dde92;
+      transition: all 0.3s;
     }
   }
   @media screen and (max-width: 1023.98px) {

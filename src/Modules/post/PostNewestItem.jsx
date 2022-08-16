@@ -37,7 +37,9 @@ const PostNewestItem = ({ data }) => {
     <PostNewestItemStyles>
       <PostImage url={data?.image} />
       <div className="post-content">
-        <PostCategory type="secondary">{data?.category?.name}</PostCategory>
+        <PostCategory to={data?.category?.slug}>
+          {data?.category?.name}
+        </PostCategory>
         <PostTitle
           type="primary"
           size="normal"
