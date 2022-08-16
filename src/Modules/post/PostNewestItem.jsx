@@ -38,7 +38,12 @@ const PostNewestItem = ({ data }) => {
       <PostImage url={data?.image} />
       <div className="post-content">
         <PostCategory type="secondary">{data?.category?.name}</PostCategory>
-        <PostTitle type="primary" size="normal" to={data?.slug}>
+        <PostTitle
+          type="primary"
+          size="normal"
+          to={data?.slug}
+          className="hover:text-primary  hover:transition-all duration-300"
+        >
           {data?.title}
         </PostTitle>
         {/* post-meta */}

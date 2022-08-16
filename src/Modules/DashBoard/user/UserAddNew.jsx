@@ -60,7 +60,7 @@ const UserAddNew = () => {
         username: values.username,
         password: values.password,
         email: values.email,
-        avartar: image,
+        avatar: image,
         status: Number(values.status),
         role: Number(values.role),
         createAt: serverTimestamp(),
@@ -84,7 +84,7 @@ const UserAddNew = () => {
       reset({
         username: "",
         password: "",
-        avartar: "",
+        avatar: "",
         email: "",
         status: userStatus.HANDING,
         role: role.ADMIN,

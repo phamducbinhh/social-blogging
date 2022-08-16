@@ -2,6 +2,7 @@ import React from "react";
 import styled, { css } from "styled-components";
 import { NavLink } from "react-router-dom";
 import LoadingSpinner from "../loading/LoadingSpinner";
+import PropTypes from "prop-types";
 
 const ButtonStyles = styled.button`
   cursor: pointer;
@@ -76,4 +77,12 @@ const Button = ({
   );
 };
 
+Button.prototype = {
+  type: PropTypes.oneOf(["button", "submit"]),
+  onClick: PropTypes.func,
+  children: PropTypes.node,
+  kind: PropTypes.string,
+  isLoading: PropTypes.bool,
+  to: PropTypes.oneOf(["primary", "secondary", "ghost"]),
+};
 export default Button;

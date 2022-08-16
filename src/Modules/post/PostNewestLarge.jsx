@@ -26,7 +26,12 @@ const PostNewestLarge = ({ data }) => {
     <PostNewestLargeStyles>
       <PostImage url={data?.image} />
       <PostCategory>{data?.category?.name}</PostCategory>
-      <PostTitle type="primary" size="normal" to={data?.slug} className="hover:text-gray-500">
+      <PostTitle
+        type="primary"
+        size="normal"
+        to={data?.slug}
+        className="hover:text-primary  hover:transition-all duration-300"
+      >
         {data?.title}
       </PostTitle>
       {/* post-meta */}

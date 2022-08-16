@@ -16,6 +16,10 @@ const PostMetaStyles = styled.div`
       background-color: currentColor;
       border-radius: 100rem;
     }
+    &-author {
+      color: ${(props) => props.theme.primary};
+      font-style: italic;
+    }
   }
   @media screen and (max-width: 1023.98px) {
     font-size: 10px;
@@ -24,8 +28,8 @@ const PostMetaStyles = styled.div`
 `;
 
 const PostMeta = ({
-  date = "Mar 23",
-  authorName = "Andiez Le",
+  date = "",
+  authorName = "",
   className = "",
 }) => {
   return (

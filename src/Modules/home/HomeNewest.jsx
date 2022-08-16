@@ -12,13 +12,14 @@ import Heading from "../../Layout/Heading";
 import PostItem from "../post/PostItem";
 import PostNewestItem from "../post/PostNewestItem";
 import PostNewestLarge from "../post/PostNewestLarge";
+import { v4 } from "uuid";
 
 const HomeNewestStyles = styled.div`
   .layout {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-gap: 40px;
-    margin-bottom: 64px;
+    margin-bottom: 80px;
     align-items: start;
   }
   .sidebar {
@@ -70,15 +71,15 @@ const HomeNewest = () => {
             {/* phan tu con lai */}
             {other.length > 0 &&
               other.map((item) => (
-                <PostNewestItem key={item.id} data={item}></PostNewestItem>
+                <PostNewestItem key={v4()} data={item}></PostNewestItem>
               ))}
           </div>
         </div>
+        <Heading>Bài viết liên quan</Heading>
         <div className="grid-layout grid-layout--primary">
-          <PostItem />
-          <PostItem />
-          <PostItem />
-          <PostItem />
+          {postNew.map((item) => (
+            <PostItem key={item.id} data={item}></PostItem>
+          ))}
         </div>
       </div>
     </HomeNewestStyles>

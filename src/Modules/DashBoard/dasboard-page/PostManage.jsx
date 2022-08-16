@@ -1,6 +1,5 @@
 import React from "react";
 import PostTable from "./PostTable";
-import Dropdown from "../../../Components/dropdown/Dropdown";
 import DashboardHeading from "../DashboardHeading";
 const PostManage = () => {
   return (

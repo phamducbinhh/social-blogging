@@ -52,6 +52,8 @@ const PostAddNew = () => {
       slug: "",
       status: 2,
       hot: false,
+      likes: 0,
+      peopleLike: [],
       category: {},
       user: {},
     },

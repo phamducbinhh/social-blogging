@@ -10,6 +10,12 @@ const PostCategoryStyles = styled.div`
   font-size: 14px;
   font-weight: 600;
   margin-bottom: 10px;
+  :hover {
+    background-color: ${(props) => props.theme.primary};
+    color: white;
+    transition: 0.3s;
+    cursor: pointer;
+  }
   ${(props) =>
     props.type === "primary" &&
     css`

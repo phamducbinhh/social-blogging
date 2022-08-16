@@ -1,5 +1,6 @@
 import React from "react";
 import { useController } from "react-hook-form";
+import PropTypes from "prop-types";
 
 const Radio = ({ checked, children, control, name, ...rest }) => {
   const { field } = useController({
@@ -28,5 +29,12 @@ const Radio = ({ checked, children, control, name, ...rest }) => {
     </label>
   );
 };
+
+Radio.propTypes = {
+  checked: PropTypes.bool,
+  children: PropTypes.node,
+  control: PropTypes.object,
+  name: PropTypes.string,
+}
 
 export default Radio;

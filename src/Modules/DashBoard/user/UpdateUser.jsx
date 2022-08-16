@@ -41,8 +41,6 @@ const UpdateUser = () => {
   //trang thai radio va role
   const watchStatus = watch("status");
   const watchRole = watch("role");
-  const imageUrl = getValues("avatar");
-  console.log(imageUrl);
 
   //get user can update tu firebase users
   useEffect(() => {

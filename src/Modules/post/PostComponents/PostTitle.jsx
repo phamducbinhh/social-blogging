@@ -27,6 +27,14 @@ const PostTileStyles = styled.div`
       }
     `};
   ${(props) =>
+    props.size === "big" &&
+    css`
+      font-size: 25px;
+      @media screen and (max-width: 1023.98px) {
+        font-size: 16px;
+      }
+    `};
+  ${(props) =>
     props.type === "primary" &&
     css`
       color: ${(props) => props.theme.gray23}; ;

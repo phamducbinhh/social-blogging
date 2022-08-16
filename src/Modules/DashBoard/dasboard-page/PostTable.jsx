@@ -10,7 +10,8 @@ import { debounce } from "lodash";
 import Button from "../../../Components/button/Button";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../Context/AuthContext";
-import { role } from "../../../Utils/constans";
+import { postStatus, role } from "../../../Utils/constans";
+import LabelStatus from "../../../Components/label/LabelStatus";
 
 const PostTable = () => {
   const navigate = useNavigate();
@@ -78,6 +79,7 @@ const PostTable = () => {
             <th>Post</th>
             <th>Category</th>
             <th>Author</th>
+            <th>Status</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -118,6 +120,15 @@ const PostTable = () => {
                     <span className="text-gray-500 font-bold italic ">
                       {post?.user?.username}
                     </span>
+                  </td>
+                  <td>
+                    {post?.status === postStatus.APPROVED ? (
+                      <LabelStatus type="success">APPROVED</LabelStatus>
+                    ) : post?.status === postStatus.PENDING ? (
+                      <LabelStatus type="warning">PENDING</LabelStatus>
+                    ) : (
+                      <LabelStatus type="danger">REJECTED</LabelStatus>
+                    )}
                   </td>
                   <td>
                     <div className="flex items-center gap-x-3">

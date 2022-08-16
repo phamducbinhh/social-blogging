@@ -61,7 +61,7 @@ const PostFeatureItem = ({ item }) => {
     <PostFeatureItemStyles>
       {/* post-image component */}
       {/* dữ liệu được truyền props từ bên component Home Feature */}
-      <PostImage url={item?.image} alt="unsplash"></PostImage>
+      <PostImage url={item?.image} alt="unsplash" to={item?.slug}></PostImage>
       <div className="post-overlay"></div>
       <div className="post-content">
         <div className="post-top">
@@ -70,7 +70,7 @@ const PostFeatureItem = ({ item }) => {
           )}
           <PostMeta authorName={user?.username} date={formartDate} />
         </div>
-        <PostTitle to={item.slug} className="hover:text-gray-300">{item?.title}</PostTitle>
+        <PostTitle to={item.slug} className="hover:text-gray-300 hover:transition-all duration-300">{item?.title}</PostTitle>
       </div>
     </PostFeatureItemStyles>
   );

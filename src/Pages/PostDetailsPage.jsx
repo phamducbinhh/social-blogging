@@ -3,16 +3,16 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { db } from "../Firebase/Firebase";
-import Heading from "../Layout/Heading";
 import LayoutMain from "../Layout/LayoutMain";
 import PostCategory from "../Modules/post/PostComponents/PostCategory";
 import PostImage from "../Modules/post/PostComponents/PostImage";
 import PostMeta from "../Modules/post/PostComponents/PostMeta";
-import PostItem from "../Modules/post/PostItem";
 import PageNotFound from "./PageNotFound";
 import parse from "html-react-parser";
 import AuthorBox from "../Components/author/AuthorBox";
 import PostSimilar from "../Modules/DashBoard/dasboard-page/PostSimilar";
+import moment from "moment";
+import ToggleLike from "../Components/toggle/ToggleLike";
 
 const PostDetailsPageStyles = styled.div`
   padding-bottom: 100px;
@@ -122,12 +122,16 @@ const PostDetailsPage = () => {
     document.body.scrollIntoView({ behavior: "smooth", block: "start" });
   }, [slug]);
 
-  if (!slug || !postInfo.title) return <PageNotFound></PageNotFound>;
+  // điều kiện bài viết không tồn tại
+  if (!slug || !postInfo.title) return;
   //time hien thi thoi gian post
   const date = postInfo?.createdAt?.seconds
     ? new Date(postInfo.createdAt.seconds * 1000)
     : new Date();
-  const formartDate = new Date(date).toLocaleDateString("vi-VI");
+  //moment.js
+  const time = moment(date).fromNow();
+
+  const { title } = postInfo;
   return (
     <PostDetailsPageStyles>
       <LayoutMain>
@@ -144,8 +148,9 @@ const PostDetailsPage = () => {
               <h1 className="post-heading">{postInfo?.title}</h1>
               <PostMeta
                 authorName={postInfo?.user?.username}
-                date={formartDate}
+                date={time}
               ></PostMeta>
+              <ToggleLike title={title} />
             </div>
           </div>
           <div className="post-content">

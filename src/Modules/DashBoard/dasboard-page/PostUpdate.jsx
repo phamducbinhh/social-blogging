@@ -28,6 +28,7 @@ import Swal from "sweetalert2";
 // #1 import quill-image-uploader
 import ImageUploader from "quill-image-uploader";
 import { useAuth } from "../../../Context/AuthContext";
+import slugify from "slugify";
 
 // #2 register module
 Quill.register("modules/imageUploader", ImageUploader);
@@ -64,7 +65,6 @@ const PostUpdate = () => {
         reset(docSnap.data()); //reset ve trang thai ban dau khi click vao update
         setSelectCategory(docSnap.data()?.category || "");
         setContent(docSnap.data()?.content || "");
-        // setImage(docSnap.data()?.image || "");
       }
     };
     getPostData();
@@ -82,7 +82,11 @@ const PostUpdate = () => {
       return;
     }
     if (!isValid) return;
+    //update post vao firebase
     const postRef = doc(db, "posts", postID);
+    values.status = Number(values.status);
+    //dieu kien slug neu ko nhap thi se lay values cua title
+    values.slug = slugify(values.slug || values.title, { lower: true });
     await updateDoc(postRef, {
       ...values,
       image,
@@ -104,6 +108,7 @@ const PostUpdate = () => {
   const { image, progress, handleSelectImage, handleDeleteImage, setImage } =
     useFirebaseImage(setValue, getValues);
 
+  //gop chung vao user trong do co id , userId , name , email
   useEffect(() => {
     async function getData() {
       const colRef = collection(db, "categories");
@@ -190,7 +195,7 @@ const PostUpdate = () => {
             ></ImageUpload>
           </Field>
           <Field>
-          <Label>Category</Label>
+            <Label>Category</Label>
             <Dropdown>
               <Dropdown.Select
                 placeholder={`${selectCategory?.name || "Select Dropdown"}`}
