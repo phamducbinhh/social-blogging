@@ -9,6 +9,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../Context/AuthContext";
 import { db } from "../../Firebase/Firebase";
+import Swal from "sweetalert2";
 const ToggleLike = ({ title }) => {
   const { userInfo } = useAuth();
   const [liked, setLiked] = useState(false);
@@ -17,6 +18,16 @@ const ToggleLike = ({ title }) => {
   const [postId, setPostId] = useState("");
 
   const handleLikePost = async () => {
+    if (!userInfo) {
+      Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: "you can't like because you dont login!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      return;
+    }
     const docRef = doc(db, "posts", postId);
     //lọc ra mảng không chứa userInfo.email
     const filter = likePeople.filter((item) => item !== userInfo.email);
@@ -46,7 +57,7 @@ const ToggleLike = ({ title }) => {
       });
     };
     fetchData();
-  }, [title, userInfo.email]);
+  }, [title]);
   return (
     <span
       onClick={handleLikePost}

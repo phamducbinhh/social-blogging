@@ -130,7 +130,6 @@ const PostDetailsPage = () => {
     : new Date();
   //moment.js
   const time = moment(date).fromNow();
-
   const { title } = postInfo;
   return (
     <PostDetailsPageStyles>
