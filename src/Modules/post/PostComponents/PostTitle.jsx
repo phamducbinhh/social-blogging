@@ -44,6 +44,9 @@ const PostTileStyles = styled.div`
     css`
       color: white;
     `};
+  @media only screen and (max-width: 740px) {
+    font-size: 11px;
+  }
 `;
 const PostTitle = ({
   children,

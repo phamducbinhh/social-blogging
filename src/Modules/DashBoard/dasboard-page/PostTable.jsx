@@ -93,7 +93,7 @@ const PostTable = () => {
               .map((post) => (
                 <tr key={post?.id}>
                   <td></td>
-                  <td>{post?.id.slice(0, 3)}</td>
+                  <td>{post?.id.slice(0,2)}</td>
                   <td>
                     <div className="flex items-center gap-x-3">
                       <img
@@ -102,8 +102,8 @@ const PostTable = () => {
                         className="w-[66px] h-[55px] rounded object-cover"
                       />
                       <div className="flex-1">
-                        <h3 className="font-semibold">{post?.title}</h3>
-                        <span className="text-sm text-gray-500 italic">
+                        <h3 className="font-semibold text-xs">{post?.title}</h3>
+                        <span className="text-xs text-gray-500 italic">
                           {new Date(
                             post?.createAt?.seconds * 1000
                           ).toLocaleDateString("vi-VN")}
@@ -112,12 +112,12 @@ const PostTable = () => {
                     </div>
                   </td>
                   <td>
-                    <span className="text-gray-500 font-bold italic">
+                    <span className="text-gray-500 font-bold italic text-xs">
                       {post?.category?.name}
                     </span>
                   </td>
                   <td>
-                    <span className="text-gray-500 font-bold italic ">
+                    <span className="text-gray-500 font-bold italic text-xs ">
                       {post?.user?.username}
                     </span>
                   </td>

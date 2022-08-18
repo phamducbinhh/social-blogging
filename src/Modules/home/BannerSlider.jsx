@@ -27,7 +27,7 @@ const BannerSlider = ({ data }) => {
           url={data?.image}
           to={data?.slug}
           alt=""
-          className="w-full h-[520px] object-cover rounded-xl flex-shrink-0"
+          className="w-full h-[520px] object-cover rounded-xl flex-shrink-0 "
         />
         <div className="absolute w-full text-white left-5 bottom-5">
           <PostTitle

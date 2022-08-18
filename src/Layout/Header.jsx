@@ -6,8 +6,8 @@ import { useAuth } from "../Context/AuthContext";
 
 const HeaderStyles = styled.header`
   padding: 15px 0;
-  background-color: ${(props) => props.theme.primary};
-  color: ${(props) => props.theme.grayF3};
+  background: white;
+  color: ${(props) => props.theme.grayDark};
   position: sticky;
   top: 0;
   z-index: 9999;
