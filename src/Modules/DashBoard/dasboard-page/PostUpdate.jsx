@@ -65,6 +65,7 @@ const PostUpdate = () => {
         reset(docSnap.data()); //reset ve trang thai ban dau khi click vao update
         setSelectCategory(docSnap.data()?.category || "");
         setContent(docSnap.data()?.content || "");
+        setImage(docSnap.data()?.image || "");
       }
     };
     getPostData();

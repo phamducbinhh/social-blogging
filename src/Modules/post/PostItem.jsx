@@ -30,10 +30,9 @@ const PostItemStyles = styled.div`
 const PostItem = ({ data }) => {
   if (!data) return null;
   //time hien thi thoi gian post
-  const date = data?.createdAt?.seconds
-    ? new Date(data.createdAt.seconds * 1000)
-    : new Date();
-  const formartDate = new Date(date).toLocaleDateString("vi-VI");
+  const formartDate = new Date(
+    data?.createAt?.seconds * 1000
+  ).toLocaleDateString("vi-VN");
   return (
     <PostItemStyles>
       <PostImage url={data?.image} to={data?.slug} />

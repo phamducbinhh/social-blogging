@@ -52,10 +52,9 @@ const PostFeatureItemStyles = styled.div`
 const PostFeatureItem = ({ item }) => {
   if (!item || !item.id) return null;
   //time hien thi thoi gian post
-  const date = item?.createdAt?.seconds
-    ? new Date(item.createdAt.seconds * 1000)
-    : new Date();
-  const formartDate = new Date(date).toLocaleDateString("vi-VI");
+  const formartDate = new Date(
+    item?.createAt?.seconds * 1000
+  ).toLocaleDateString("vi-VN");
   const { category, user } = item;
   return (
     <PostFeatureItemStyles>
@@ -70,7 +69,12 @@ const PostFeatureItem = ({ item }) => {
           )}
           <PostMeta authorName={user?.username} date={formartDate} />
         </div>
-        <PostTitle to={item.slug} className="hover:text-gray-300 hover:transition-all duration-300">{item?.title}</PostTitle>
+        <PostTitle
+          to={item.slug}
+          className="hover:text-gray-300 hover:transition-all duration-300"
+        >
+          {item?.title}
+        </PostTitle>
       </div>
     </PostFeatureItemStyles>
   );

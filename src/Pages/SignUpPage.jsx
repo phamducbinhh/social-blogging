@@ -60,7 +60,7 @@ const SignUpPage = () => {
       password: values.password,
       avatar: "",
       status: userStatus.ACTIVE,
-      role: role.ADMIN,
+      role: role.USER,
       createAt: serverTimestamp(),
     });
     Swal.fire({

@@ -24,7 +24,7 @@ const HomeNewestStyles = styled.div`
   }
   .sidebar {
     padding: 28px 20px;
-    background-color: #f3edff;
+    background-color: #f5f5f0;
     border-radius: 16px;
   }
   @media screen and (max-width: 1023.98px) {

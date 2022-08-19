@@ -29,15 +29,14 @@ const PostNewestItemStyles = styled.div`
 const PostNewestItem = ({ data }) => {
   if (!data) return null;
   //time hien thi thoi gian post
-  const date = data?.createdAt?.seconds
-    ? new Date(data.createdAt.seconds * 1000)
-    : new Date();
-  const formartDate = new Date(date).toLocaleDateString("vi-VI");
+  const formartDate = new Date(
+    data?.createAt?.seconds * 1000
+  ).toLocaleDateString("vi-VN");
   return (
     <PostNewestItemStyles>
       <PostImage url={data?.image} />
       <div className="post-content">
-        <PostCategory to={data?.category?.slug}>
+        <PostCategory to={data?.category?.slug} type="secondary">
           {data?.category?.name}
         </PostCategory>
         <PostTitle

@@ -89,6 +89,7 @@ const Header = () => {
             />
           </NavLink>
           <ul className="menu">
+          {/* map links */}
             {menuLinks.map((item) => (
               <li className="menu-item" key={item.title}>
                 <NavLink to={item.url} className="menu-link">

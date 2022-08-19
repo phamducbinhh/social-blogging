@@ -42,14 +42,24 @@ const UpdateUser = () => {
   const watchStatus = watch("status");
   const watchRole = watch("role");
 
+  //regex de toi uu xoa anh
+  const imageUrl = getValues("avatar");
+  const imageRegex = /%2F(\S+)\?/gm.exec(imageUrl);
+  const imageName = imageRegex?.length > 0 ? imageRegex[1] : "";
+
+  //hooks upload image
+  //gọi hàm custom hook để upload ảnh
+  const { image, progress, handleSelectImage, handleDeleteImage, setImage } =
+    useFirebaseImage(setValue, getValues, imageName);
+
   //get user can update tu firebase users
   useEffect(() => {
     const getUser = async () => {
       const colRef = doc(db, "users", userAccountID);
       const docSnap = await getDoc(colRef);
       if (docSnap) {
-        reset(docSnap.data()); //reset ve trang thai ban dau khi click vao update
-        // setImage(docSnap.data()?.avatar || "");
+        reset(docSnap && docSnap.data()); //reset ve trang thai ban dau khi click vao update
+        setImage(docSnap.data()?.avatar || "");
       }
     };
     getUser();
@@ -99,11 +109,6 @@ const UpdateUser = () => {
       });
     }
   };
-
-  //hooks upload image
-  //gọi hàm custom hook để upload ảnh
-  const { image, progress, handleSelectImage, handleDeleteImage, setImage } =
-    useFirebaseImage(setValue, getValues);
 
   //nếu không phải userId của user đang đăng nhập thì không được update
   if (!userAccountID)

@@ -22,8 +22,8 @@ const DashBoardHeaderStyles = styled.div`
       border-radius: 100rem;
     }
   }
-  @media only screen and (max-width: 740px){
-    span{
+  @media only screen and (max-width: 740px) {
+    span {
       display: none;
     }
   }
@@ -47,7 +47,7 @@ const DashBoardHeader = () => {
           Write new post
         </Button>
         <div className="header-avatar">
-          <NavLink to={"/profile"}>
+          <NavLink to={`/profile?id=${userInfo?.uid}`}>
             <img src={userInfo?.avatar} alt="" />
           </NavLink>
         </div>

@@ -15,10 +15,9 @@ const BannerStyles = styled.div`
 const BannerSlider = ({ data }) => {
   if (!data) return null;
   //time hien thi thoi gian post
-  const date = data?.createdAt?.seconds
-    ? new Date(data.createdAt.seconds * 1000)
-    : new Date();
-  const formartDate = new Date(date).toLocaleDateString("vi-VI");
+  const formartDate = new Date(
+    data?.createAt?.seconds * 1000
+  ).toLocaleDateString("vi-VN");
   return (
     <BannerStyles>
       <div className="relative w-full h-full cursor-pointer overflow-hidden ">

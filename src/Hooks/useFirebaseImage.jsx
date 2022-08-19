@@ -8,7 +8,12 @@ import {
 import { useState } from "react";
 import Swal from "sweetalert2";
 
-export const useFirebaseImage = (setValue, getValues) => {
+export const useFirebaseImage = (
+  setValue,
+  getValues,
+  imageName = null,
+  cb = null
+) => {
   //hàm upload image
   const [progress, setProgress] = useState(0);
   const [image, setImage] = useState("");
@@ -58,7 +63,10 @@ export const useFirebaseImage = (setValue, getValues) => {
   // xóa ảnh đã chọn từ trong firebase
   const handleDeleteImage = () => {
     const storage = getStorage();
-    const imageRef = ref(storage, "images/" + getValues("image_name"));
+    const imageRef = ref(
+      storage,
+      "images/" + (imageName || getValues("image_name"))
+    );
     deleteObject(imageRef)
       .then(() => {
         Swal.fire({
@@ -70,14 +78,23 @@ export const useFirebaseImage = (setValue, getValues) => {
         });
         setImage("");
         setProgress(0);
+        cb && cb();
       })
       .catch((error) => {
-        console.log(error);
+        console.log("handleDeleteImage ~ error", error);
+        console.log("Can not delete image");
       });
+  };
+
+  //ham reset upload image
+  const handleResetUpload = () => {
+    setImage("");
+    setProgress(0);
   };
   return {
     image,
     setImage,
+    handleResetUpload,
     progress,
     handleSelectImage,
     handleDeleteImage,

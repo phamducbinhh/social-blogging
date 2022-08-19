@@ -7,11 +7,9 @@ import LayoutMain from "../Layout/LayoutMain";
 import PostCategory from "../Modules/post/PostComponents/PostCategory";
 import PostImage from "../Modules/post/PostComponents/PostImage";
 import PostMeta from "../Modules/post/PostComponents/PostMeta";
-import PageNotFound from "./PageNotFound";
 import parse from "html-react-parser";
 import AuthorBox from "../Components/author/AuthorBox";
 import PostSimilar from "../Modules/DashBoard/dasboard-page/PostSimilar";
-import moment from "moment";
 import ToggleLike from "../Components/toggle/ToggleLike";
 
 const PostDetailsPageStyles = styled.div`
@@ -125,11 +123,9 @@ const PostDetailsPage = () => {
   // điều kiện bài viết không tồn tại
   if (!slug || !postInfo.title) return;
   //time hien thi thoi gian post
-  const date = postInfo?.createdAt?.seconds
-    ? new Date(postInfo.createdAt.seconds * 1000)
-    : new Date();
-  //moment.js
-  const time = moment(date).fromNow();
+  const formartDate = new Date(
+    postInfo?.createAt?.seconds * 1000
+  ).toLocaleDateString("vi-VN");
   const { title } = postInfo;
   return (
     <PostDetailsPageStyles>
@@ -147,7 +143,7 @@ const PostDetailsPage = () => {
               <h1 className="post-heading">{postInfo?.title}</h1>
               <PostMeta
                 authorName={postInfo?.user?.username}
-                date={time}
+                date={formartDate}
               ></PostMeta>
               <ToggleLike title={title} />
             </div>
