@@ -4,7 +4,9 @@ const TableStyles = styled.div`
   overflow-x: auto;
   background-color: white;
   border-radius: 10px;
-  overflow-y: auto;
+  overflow-y: scroll;
+  max-height: 230px;
+  border: 1px solid #e6e6e6;
   ::-webkit-scrollbar {
     background-image: linear-gradient(#fc5c7d, #6a82fb);
     border: 0;

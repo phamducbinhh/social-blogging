@@ -10,22 +10,20 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "../../Context/AuthContext";
 import { db } from "../../Firebase/Firebase";
 import Swal from "sweetalert2";
+import { role } from "../../Utils/constans";
 const ToggleLike = ({ title }) => {
   const { userInfo } = useAuth();
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [likePeople, setLikePeople] = useState([]);
   const [postId, setPostId] = useState("");
-
   const handleLikePost = async () => {
-    if (!userInfo) {
-      Swal.fire({
-        position: "center",
-        icon: "warning",
-        title: "you can't like because you dont login!",
-        showConfirmButton: false,
-        timer: 1500,
-      });
+    if (userInfo?.role !== role.ADMIN) {
+      Swal.fire(
+        "Failed",
+        "You must be an admin to have permission Like Post",
+        "warning"
+      );
       return;
     }
     const docRef = doc(db, "posts", postId);

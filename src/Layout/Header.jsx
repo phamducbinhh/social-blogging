@@ -32,6 +32,13 @@ const HeaderStyles = styled.header`
     font-size: 18px;
     text-transform: capitalize;
   }
+  .menu-link {
+    :hover {
+      border-bottom: #6dde92 4px solid;
+      transition: 0.1s;
+      padding-bottom: 3px;
+    }
+  }
   .menu-item {
     transition: 0.3s;
     :hover {
@@ -89,7 +96,7 @@ const Header = () => {
             />
           </NavLink>
           <ul className="menu">
-          {/* map links */}
+            {/* map links */}
             {menuLinks.map((item) => (
               <li className="menu-item" key={item.title}>
                 <NavLink to={item.url} className="menu-link">

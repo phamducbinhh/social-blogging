@@ -93,7 +93,7 @@ const PostTable = () => {
               .map((post) => (
                 <tr key={post?.id}>
                   <td></td>
-                  <td>{post?.id.slice(0,2)}</td>
+                  <td>{post?.id.slice(0, 2)}</td>
                   <td>
                     <div className="flex items-center gap-x-3">
                       <img
