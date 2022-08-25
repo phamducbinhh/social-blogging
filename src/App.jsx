@@ -1,6 +1,8 @@
 import React, { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./Context/AuthContext";
+import BlogDetailsPage from "./Pages/BlogDetailsPage";
+import BlogPage from "./Pages/BlogPage";
 const SignUpPage = lazy(() => import("./Pages/SignUpPage"));
 const SignInPage = lazy(() => import("./Pages/SignInPage"));
 const HomePage = lazy(() => import("./Pages/HomePage"));
@@ -41,7 +43,7 @@ const App = () => {
           <Routes>
             <Route path="/sign-up" element={<SignUpPage />} />
             <Route path="/sign-in" element={<SignInPage />} />
-            <Route path="/blog" element={<PageNotFound></PageNotFound>}></Route>
+            <Route path="/blog" element={<BlogPage></BlogPage>}></Route>
             <Route
               path="/contact"
               element={<PageNotFound></PageNotFound>}
@@ -53,6 +55,7 @@ const App = () => {
             ></Route>
             <Route path="*" element={<PageNotFound />} />
             <Route path="/:slug" element={<PostDetailsPage />} />
+            <Route path="/blog/:id" element={<BlogDetailsPage />} />
             <Route element={<DashBoardLayout />}>
               <Route path="/dashboard" element={<DashBoardPages />} />
               <Route path="/manage/post" element={<PostManage />} />
