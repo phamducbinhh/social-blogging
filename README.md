@@ -1,6 +1,6 @@
 # social-blogging
-Front End : Sử dụng ReactJs
-Back End : Sử dụng Firbase
+# Front End : Sử dụng ReactJs
+# Back End : Sử dụng Firbase
 
 #Chức Năng:
 -Đăng ký,Đăng nhập tài khoản bằng authentication firebase
